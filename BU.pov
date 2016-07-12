@@ -13,13 +13,19 @@ camera {
 //---------- chão ---------
 //-------------------------
 plane { <0, 1, 0>, -1 
-    pigment {
-        cells scale 1.5
-        color_map { [0.0 color rgb <1,1,.9>]
-                    [1 color rgb <.9,.85,.7>]
-        } // end of color_map
-    } // end of pigment
-    finish {ambient .3 diffuse .2}
+   pigment{
+        pavement  //  pavement pattern in the xz plane 
+        number_of_sides 4 //  3 triangle,  4 quadrat, 6 hexagon
+        number_of_tiles 1 //  (1 to 5 or 6): the number of basic tiles to combine together  to make one real tile
+        pattern 1 // maximum depends from  number_of_sides and  number_of_tiles
+        form 0//  0, 1 or 2, (3 for square only) copies the look of interior for some additional variations. 
+        color_map{
+            [ 0.95 color rgb<0.945, 0.815, 0.674> ] 
+            [ 0.95 color rgb<0.737, 0.701, 0.462> ] 
+        } // end color_map
+        rotate 50*y
+    } // end pigment
+    finish {ambient .3 diffuse .1 }
 }
 
 //------------------------- 
@@ -27,11 +33,11 @@ plane { <0, 1, 0>, -1
 //-------------------------
 #declare placa_saida = object{ 
     union{
-        box {<0,0,0> <10,6,1.5> 
+        box {<0,0,0> <10,4,1.5> 
             texture{ pigment{ color Red }
             } // end of texture
         }
-        box {<1,0.5,-0.01> <9,5,0> 
+        box {<1,0.5,-0.01> <9,3.5,0> 
             texture{ pigment{ color Gray30 }
             } // end of texture
         }
@@ -40,11 +46,12 @@ plane { <0, 1, 0>, -1
                 finish { phong 0.1 }
             } // end of texture
             scale 2.5
-            translate <1.2,2,-0.02>
+            translate <1.2,1,-0.02>
         } // end of text object 
     } // end of union
     rotate<0,60,0>
     scale 0.1
+    no_shadow
 } // end of object
 
 object {
@@ -69,7 +76,8 @@ object {
             } // end pigment
             finish {ambient .4 diffuse .3}
         } // end plane
-        object {placa_saida translate <-5,4.5,0>}
+        object {placa_saida translate <-3.8,4.5,-3>}
+        //<-2.2,4.5,-6>}
     } // end union
 }// end object
 
@@ -423,8 +431,8 @@ object {
         looks_like {lampada }
     } //end of light_source
 #end
-
-//luz perdida no meio
+      
+//luzez perdidas no meio
 light_source { <-0.5, 5,-8.3> color White
     spotlight
     radius 1 
@@ -433,14 +441,31 @@ light_source { <-0.5, 5,-8.3> color White
     looks_like {lampada }
     Rotate_Around_Trans(<0, 62, 0>, <1, 5,-10>)
 } //end of light_source
+    
+light_source { <-8, 5,-10> color White     
+    spotlight
+    radius 1
+    area_light <4, 0, 0> <0, 0, 4>
+    4,4 // numbers in directions
+    looks_like {lampada  
+    Rotate_Around_Trans(<0, 72, 0>, <-4, 0,-11.5>)}
+}
 
+light_source { <-8, 5,-10> color White     
+    spotlight
+    radius 1
+    area_light <4, 0, 0> <0, 0, 4>
+    4,4 // numbers in directions
+    looks_like {lampada  
+    Rotate_Around_Trans(<0, 72, 0>, <3.5, 0,-11.5>)}
+}   
+ 
 //luzes trás
 #local CntrX = -8;
-#local CntrY = 5;
-#local CntrZ = -10;
-#for (Cntr2, 0, 6)   
-    #for ( Cntr, 0 ,3)        
-        light_source { <CntrX, CntrY,CntrZ> color White     
+#local CntrZ = -10; 
+#for (Cntr2, 0, 7)   
+    #for ( Cntr, 1 ,3)        
+        light_source { <CntrX, 5,CntrZ> color White     
         spotlight
         radius 1
         translate Cntr*-5.5*x
@@ -448,12 +473,12 @@ light_source { <-0.5, 5,-8.3> color White
         area_light <4, 0, 0> <0, 0, 4>
         4,4 // numbers in directions
         looks_like {lampada  
-        Rotate_Around_Trans(<0, 72, 0>, <CntrX, CntrY,CntrZ>)} }   
+        Rotate_Around_Trans(<0, 72, 0>, <CntrX, 5,CntrZ>)} }   
      #end 
     #local CntrX = CntrX+3;
     #local CntrZ = CntrZ+6;
  #end          
-          
+               
 //------------------------- 
 //-------- cadeira --------
 //-------------------------
