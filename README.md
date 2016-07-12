@@ -1,1 +1,1 @@
-# povray
+# Trabalho 2 de CG

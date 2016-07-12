@@ -25,26 +25,54 @@ plane { <0, 1, 0>, -1
 //------------------------- 
 //---------- teto ---------
 //-------------------------
-plane { <0, 1, 0>,5.1
-    pigment{
-        pavement  //  pavement pattern in the xz plane 
-        number_of_sides 3 //  3 triangle,  4 quadrat, 6 hexagon
-        number_of_tiles 4 //  (1 to 5 or 6): the number of basic tiles to combine together  to make one real tile
-        pattern 1 // maximum depends from  number_of_sides and  number_of_tiles
-        exterior 0 //  0, 1 or 2; Not used for hexagon.  
-        interior 0  // 0, 1 or 2  
-        form 0//  0, 1 or 2, (3 for square only) copies the look of interior for some additional variations. 
-        color_map{
-            [ 0.95 color rgb<1, 0.9, 0.80> ] 
-            [ 0.95 color rgb<0.85, 0.75, 0.75> ] 
-        } // end color_map
-        scale 1.4
-        rotate 60*y
-        translate -0.65*x
-        translate -0.2*z
-    } // end pigment
-    finish {ambient .4 diffuse .3}
-}
+#declare placa_saida = object{ 
+    union{
+        box {<0,0,0> <10,6,1.5> 
+            texture{ pigment{ color Red }
+            } // end of texture
+        }
+        box {<1,0.5,-0.01> <9,5,0> 
+            texture{ pigment{ color Gray30 }
+            } // end of texture
+        }
+        text { ttf "arial.ttf", "SAIDA", 0.02, 0.0 // thickness, offset
+            texture{ pigment{ color rgb Red} 
+                finish { phong 0.1 }
+            } // end of texture
+            scale 2.5
+            translate <1.2,2,-0.02>
+        } // end of text object 
+    } // end of union
+    rotate<0,60,0>
+    scale 0.1
+} // end of object
+
+object {
+    union {
+        plane { <0, 1, 0>,5.1
+            pigment{
+                pavement  //  pavement pattern in the xz plane 
+                number_of_sides 3 //  3 triangle,  4 quadrat, 6 hexagon
+                number_of_tiles 4 //  (1 to 5 or 6): the number of basic tiles to combine together  to make one real tile
+                pattern 1 // maximum depends from  number_of_sides and  number_of_tiles
+                exterior 0 //  0, 1 or 2; Not used for hexagon.  
+                interior 0  // 0, 1 or 2  
+                form 0//  0, 1 or 2, (3 for square only) copies the look of interior for some additional variations. 
+                color_map{
+                    [ 0.95 color rgb<1, 0.9, 0.80> ] 
+                    [ 0.95 color rgb<0.85, 0.75, 0.75> ] 
+                } // end color_map
+                scale 1.4
+                rotate 60*y
+                translate -0.65*x
+                translate -0.2*z
+            } // end pigment
+            finish {ambient .4 diffuse .3}
+        } // end plane
+        object {placa_saida translate <-5,4.5,0>}
+    } // end union
+}// end object
+
 
 //------------------------- 
 //--------- fundo ---------
